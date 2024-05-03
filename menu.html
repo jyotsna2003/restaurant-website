@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> RESTAURANT SITE</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('https://burst.shopifycdn.com/photos/flatlay-iron-skillet-with-meat-and-other-food.jpg?width=1000&format=pjpg&exif=0&iptc=0'); /* Replace 'food_background.jpg' with your image file */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .overlay {
+        background-color: rgba(255, 255, 255, 0.2); /* Adjust opacity here */
+        padding: 20px;
+    }
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8); /* Set background color for container */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333333;
+    }
+    .menu-item {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #cccccc;
+        padding-bottom: 20px;
+    }
+    .menu-item:last-child {
+        border-bottom: none;
+    }
+    .menu-item h3 {
+        margin-top: 0;
+    }
+    .menu-item p {
+        margin-bottom: 10px;
+    }
+    .btn {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: #45a049;
+    }
+    #order {
+        margin-top: 30px;
+        border-top: 1px solid #cccccc;
+        padding-top: 20px;
+    }
+    #total {
+        text-align: right;
+    }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+    <div class="container">
+        <h1> IRA RESTAURANT </h1>
+        <div class="menu-item" id="menu-item-1">
+            <h3>PIZZA</h3>
+            <p>₹280</p>
+            <input type="number" class="quantity" value="0" min="0">
+        </div>
+        <div class="menu-item" id="menu-item-2">
+            <h3>BURGER</h3>
+            <p>₹250</p>
+            <input type="number" class="quantity" value="0" min="0">
+        </div>
+        <div class="menu-item" id="menu-item-3">
+            <h3>FRIUT SALAD</h3>
+            <p>₹150</p>
+            <input type="number" class="quantity" value="0" min="0">
+        </div>
+        <div class="menu-item" id="menu-item-4">
+            <h3>PASTA</h3>
+            <p>₹300</p>
+            <input type="number" class="quantity" value="0" min="0">
+        </div>
+        <div class="menu-item" id="menu-item-5">
+            <h3>ROLLS</h3>
+            <p>₹230</p>
+            <input type="number" class="quantity" value="0" min="0">
+        </div>
+        <!-- Add more menu items as needed -->
+
+        <button onclick="calculateBill()" class="btn">Generate Bill</button>
+        <div id="order"></div>
+        <div id="total"></div>
+    </div>
+</div>
+
+<script>
+    function calculateBill() {
+        const menuItems = document.querySelectorAll('.menu-item');
+        let subtotal = 0;
+        let total = 0;
+        let tax = 0;
+        let orderDetails = '';
+
+        menuItems.forEach(item => {
+            const quantity = parseInt(item.querySelector('.quantity').value);
+            const price = parseInt(item.querySelector('p').textContent.replace('₹', ''));
+            const itemName = item.querySelector('h3').textContent;
+
+            if (quantity > 0) {
+                subtotal += quantity * price;
+                orderDetails += `<p>${itemName}: ${quantity} x ₹${price} = ₹${quantity * price}</p>`;
+            }
+        });
+
+        tax = 0.1 * subtotal; // Assuming 10% tax
+        total = subtotal + tax;
+
+        const orderDiv = document.getElementById('order');
+        const totalDiv = document.getElementById('total');
+
+        orderDiv.innerHTML = '<h2>Order Details</h2>' + orderDetails;
+        totalDiv.innerHTML = `<p>Subtotal: ₹${subtotal.toFixed(2)}</p>
+                              <p>Tax: ₹${tax.toFixed(2)}</p>
+                              <h2>Total: ₹${total.toFixed(2)}</h2>`;
+    }
+</script>
+
+</body>
+</html>
